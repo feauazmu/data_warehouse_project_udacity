@@ -19,38 +19,38 @@ time_table_drop = "DROP TABLE IF EXISTS time;"
 
 staging_events_table_create = """
 CREATE TABLE IF NOT EXISTS staging_events (
-  artist        VARCHAR(50),
-  auth          VARCHAR(20)     NOT NULL,
-  firstName     VARCHAR(50)     NOT NULL,
-  gender        CHAR(1)         NOT NULL,
-  itemInSession INTEGER         NOT NULL,
-  lastName      VARCHAR(50)     NOT NULL,
+  artist        VARCHAR(250),
+  auth          VARCHAR(20),
+  firstName     VARCHAR(50),
+  gender        CHAR(1),
+  itemInSession INTEGER,
+  lastName      VARCHAR(50),
   length        DECIMAL(9, 5),
-  level         CHAR(4)         NOT NULL,
-  location      VARCHAR(80)     NOT NULL,
-  method        CHAR(3)         NOT NULL,
-  page          VARCHAR(10)     NOT NULL,
-  registration  BIGINT          NOT NULL,
-  sessionId     INTEGER         NOT NULL,
-  song          VARCHAR(80),
-  status        SMALLINT        NOT NULL,
-  ts            BIGINT          NOT NULL,
-  userAgent     VARCHAR(250)    NOT NULL,
-  userId        INTEGER         NOT NULL
+  level         CHAR(4),
+  location      VARCHAR(80),
+  method        CHAR(3),
+  page          VARCHAR(20),
+  registration  BIGINT,
+  sessionId     INTEGER,
+  song          VARCHAR(500),
+  status        SMALLINT,
+  ts            BIGINT,
+  userAgent     VARCHAR(250),
+  userId        INTEGER
 );
 """
 
 staging_songs_table_create = """
 CREATE TABLE IF NOT EXISTS staging_songs (
-  num_songs         INTEGER         NOT NULL,
   artist_id         CHAR(18)        NOT NULL,
   artist_latitude   DECIMAL(7,5),
+  artist_location   VARCHAR(256),
   artist_longitude  DECIMAL(8,5),
-  artist_location   VARCHAR(80),
-  artist_name       VARCHAR(80)     NOT NULL,
-  song_id           CHAR(18)        NOT NULL,
-  title             VARCHAR(80)     NOT NULL,
+  artist_name       VARCHAR(250)    NOT NULL,
   duration          DECIMAL(9,5),
+  num_songs         INTEGER         NOT NULL,
+  song_id           CHAR(18)        NOT NULL,
+  title             VARCHAR(500)    NOT NULL,
   year              INTEGER
 );
 """

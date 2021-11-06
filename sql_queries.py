@@ -38,7 +38,7 @@ CREATE TABLE IF NOT EXISTS staging_events (
   page          VARCHAR(20),
   registration  BIGINT,
   sessionId     INTEGER,
-  song          VARCHAR(500),
+  song          VARCHAR(500)    DISTKEY,
   status        SMALLINT,
   ts            BIGINT,
   userAgent     VARCHAR(250),
@@ -56,7 +56,7 @@ CREATE TABLE IF NOT EXISTS staging_songs (
   duration          DECIMAL(9,5),
   num_songs         INTEGER         NOT NULL,
   song_id           CHAR(18)        NOT NULL,
-  title             VARCHAR(500)    NOT NULL,
+  title             VARCHAR(500)    NOT NULL  DISTKEY,
   year              INTEGER
 );
 """

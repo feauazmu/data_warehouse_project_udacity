@@ -134,7 +134,7 @@ FROM '{LOG_DATA}'
 CREDENTIALS 'aws_iam_role={ARN}'
 JSON '{LOG_JSONPATH}'
 REGION 'us-west-2';
-    """
+"""
 
 staging_songs_copy = f"""
 COPY staging_songs
@@ -142,7 +142,7 @@ FROM '{SONG_DATA}'
 CREDENTIALS 'aws_iam_role={ARN}'
 JSON 'auto'
 REGION 'us-west-2';
-    """
+"""
 # FINAL TABLES
 
 songplay_table_insert = """

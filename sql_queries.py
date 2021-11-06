@@ -146,18 +146,70 @@ REGION 'us-west-2';
 # FINAL TABLES
 
 songplay_table_insert = """
+INSERT INTO songplay
+(start_time, user_id, level, song_id, artist_id, session_id, location, user_agent)
+(SELECT
+  TIMESTAMP 'epoch' + e.ts / 1000 * INTERVAL '1 second' AS start_time,
+  e.userId                                              AS user_id,
+  e.level                                               AS level,
+  s.song_id                                             AS song_id,
+  s.artist_id                                           AS artist_id,
+  e.sessionId                                           AS session_id,
+  e.location                                            AS location,
+  e.userAgent                                           AS user_agent
+FROM staging_events AS e
+JOIN staging_songs AS s
+  ON e.song = s.title
+WHERE page = 'NextSong')
 """
 
 user_table_insert = """
+INSERT INTO users
+(SELECT
+  a.userId    AS user_id,
+  a.firstName AS first_name,
+  a.lastName  AS last_name,
+  a.gender,
+  a.level
+FROM staging_events AS a
+JOIN (
+SELECT
+  MAX(ts) AS max_ts
+FROM staging_events 
+GROUP BY userId) AS b
+ON b.max_ts = a.ts
+WHERE user_id IS NOT NULL);
 """
 
 song_table_insert = """
+INSERT INTO song
+(SELECT DISTINCT song_id, title, artist_id, year, duration 
+FROM staging_songs);
 """
 
 artist_table_insert = """
+INSERT INTO artist
+(SELECT DISTINCT
+  artist_id, 
+  artist_name       AS name, 
+  artist_location   AS location,
+  artist_latitude   AS latitude,
+  artist_longitude  AS longitude
+FROM staging_songs);
 """
 
 time_table_insert = """
+INSERT INTO time
+(SELECT DISTINCT 
+  TIMESTAMP 'epoch' + ts / 1000 * INTERVAL '1 second'                      AS start_time, 
+  EXTRACT(HOUR FROM TIMESTAMP 'epoch' + ts / 1000 * INTERVAL '1 second')   AS hour, 
+  EXTRACT(DAY FROM TIMESTAMP 'epoch' + ts / 1000 * INTERVAL '1 second')    AS day, 
+  EXTRACT(WEEK FROM TIMESTAMP 'epoch' + ts / 1000 * INTERVAL '1 second')   AS week, 
+  EXTRACT(MONTH FROM TIMESTAMP 'epoch' + ts / 1000 * INTERVAL '1 second')  AS month, 
+  EXTRACT(YEAR FROM TIMESTAMP 'epoch' + ts / 1000 * INTERVAL '1 second')   AS year, 
+  EXTRACT(DOW FROM TIMESTAMP 'epoch' + ts / 1000 * INTERVAL '1 second' )   AS weekday
+FROM staging_events
+WHERE page = 'NextSong');
 """
 
 # QUERY LISTS

@@ -66,7 +66,7 @@ CREATE TABLE IF NOT EXISTS songplay (
   songplay_id   INTEGER IDENTITY(0,1) PRIMARY KEY   NOT NULL,
   start_time    TIMESTAMP                           NOT NULL,
   user_id       INTEGER                             NOT NULL    DISTKEY,
-  level         VARCHAR(4)                          NOT NULL,
+  level         CHAR(4)                             NOT NULL,
   song_id       CHAR(18)                            NOT NULL,
   artist_id     CHAR(18)                            NOT NULL,
   session_id    INTEGER                             NOT NULL    SORTKEY,
@@ -96,17 +96,17 @@ CREATE TABLE IF NOT EXISTS users (
 
 song_table_create = """
 CREATE TABLE IF NOT EXISTS song (
-  song_id   VARCHAR(18) PRIMARY KEY NOT NULL    SORTKEY,
+  song_id   CHAR(18)    PRIMARY KEY NOT NULL    SORTKEY,
   title     VARCHAR(500)            NOT NULL,
   artist_id CHAR(18)                NOT NULL,
   year      INTEGER                 NOT NULL,
-  duration  DECIMAL(9, 5)           NOT NULL
+  duration  DECIMAL(9,5)            NOT NULL
 );
 """
 
 artist_table_create = """
 CREATE TABLE IF NOT EXISTS artist (
-  artist_id VARCHAR(18) PRIMARY KEY NOT NULL    SORTKEY,
+  artist_id CHAR(18)    PRIMARY KEY NOT NULL    SORTKEY,
   name      VARCHAR(250)            NOT NULL,
   location  VARCHAR(256),
   latitude  DECIMAL(7,5),
